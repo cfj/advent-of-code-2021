@@ -1,20 +1,13 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        val depths = input.map(String::toInt);
-        var previousDepth = 0;
-        var depthIncreases = 0;
-        for (depth in depths) {
-            if (depth > previousDepth) {
-                depthIncreases++;
-            }
-            previousDepth = depth;
-        }
-
-        return depthIncreases - 1;
+        val depths = input.map { it.toInt() }
+        return depths.zipWithNext().count { (previous, current) -> current > previous }
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        val depths = input.map { it.toInt() }
+        val windowedSums = depths.windowed(3) { it.sum() }
+        return windowedSums.zipWithNext().count { (previous, current) -> current > previous }
     }
 
     val input = readInput("Day01")
